@@ -62,6 +62,8 @@
 
             form.submit();
         }
+
+        label_form.style.color = 'red';
     }
 
     update_fields_from_cookies();
