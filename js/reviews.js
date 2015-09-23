@@ -23,7 +23,7 @@
 
         var original_image = new_review.querySelector(".review-author");
 
-        //  author_image.title = review["author"]["name"];
+        original_image.title = review["author"]["name"];
         new_review.querySelector(".review-rating").classList.add(rating_classname[review["rating"]]);
         new_review.querySelector(".review-text").textContent = review["description"];
 
@@ -33,9 +33,12 @@
             author_image.src = review["author"]["picture"];
 
             author_image.onload = function () {
-                //new_review.replaceChild(original_image, author_image); Здесь должна быть замена
-            }
-            author_image.onerror = function (evt) {
+                author_image.classList.add('review-author');
+                author_image.title = review["author"]["name"];
+                new_review.replaceChild(author_image, original_image);              
+            };
+            
+            author_image.onerror = function () {
                 new_review.classList.add("review-load-failure");
             };
         }
@@ -45,6 +48,5 @@
 
     reviews_container.appendChild(review_fragment);
     reviews_filter.classList.remove("invisible");
-
 
 })();
