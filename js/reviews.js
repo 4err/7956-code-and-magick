@@ -40,7 +40,8 @@
       author_image.onload = function () {
         author_image.classList.add('review-author');
         author_image.title = review["author"]["name"];
-        author_image.style.backgroundSize = "124px 124px";
+        author_image.style.width = "124px";
+        author_image.style.height = "124px";
         new_review.replaceChild(author_image, original_image);
         clearTimeout(image_load_timeout);
       };
