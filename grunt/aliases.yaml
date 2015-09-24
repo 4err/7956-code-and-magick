@@ -1,0 +1,8 @@
+default:
+ description: 'Сборка по умолчанию'
+ tasks:
+  - dev
+dev:
+ description: 'Сборка для разработки'
+ tasks:
+  - 'jshint'
