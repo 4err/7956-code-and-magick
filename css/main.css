@@ -61,6 +61,25 @@ header {
     width: 93px;
 }
 */
+.header-fence {
+    background: url('../img/fence.gif') no-repeat;
+    bottom: 0;
+    height: 55px;
+    left: 50%;
+    margin-left: -455px;
+    position: absolute;
+    width: 112px;
+}
+
+.header-tree {
+    background: url('../img/tree.gif') no-repeat;
+    bottom: 0;
+    height: 141px;
+    left: 50%;
+    margin-left: 345px;
+    position: absolute;
+    width: 128px;
+}
 
 .header-soon {
     color: #fff;

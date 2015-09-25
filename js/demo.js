@@ -14,7 +14,8 @@
   wizard.src = "../img/wizard.gif";
   var wizard_data = {
     "x": 0,
-    "y": 0
+    "y": 0,
+    "speed": 3
   };
 
   wizard.onload = function () {
@@ -28,13 +29,13 @@
   window.addEventListener("keydown", function (event) {
     if (event.keyCode == 39) {
       if (wizard_data.x < canvas.width - wizard.width) {
-        move_object(wizard, wizard_data.x += 3, wizard_data.y);
+        move_object(wizard, wizard_data.x += wizard_data.speed, wizard_data.y);
       }
     }
 
     if (event.keyCode == 37) {
       if (wizard_data.x > 0) {
-        move_object(wizard, wizard_data.x -= 3, wizard_data.y);
+        move_object(wizard, wizard_data.x -= wizard_data.speed, wizard_data.y);
       }
     }
   });
