@@ -94,9 +94,10 @@
 
         case ready_state.DONE:
         default:
-          if (load.status == 200) {
+          reviews_container.classList.remove("reviews-list-loading");
+
+          if (load.status === 200) {
             var data = load.response;
-            reviews_container.classList.remove("reviews-list-loading");
             callback(JSON.parse(data));
           }
 
@@ -107,6 +108,7 @@
     };
 
     xhr.ontimeout = function () {
+      reviews_container.classList.remove("reviews-list-loading");
       show_load_failure();
     };
   }
@@ -116,59 +118,53 @@
 
     switch (filter_name) {
       case "reviews-recent":
-        filtered_reviews = filtered_reviews.sort(function (a, b) {
-          if (new Date(a.date) > new Date(b.date)) {
-            return -1;
-          }
-
-          if (new Date(a.date) < new Date(b.date)) {
-            return 1;
-          }
-
-          if (new Date(a.date) === new Date(b.date)) {
-            return 0;
-          }
+        return filtered_reviews.sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date)
         });
         break;
 
       case "reviews-good":
-        filtered_reviews = filtered_reviews.filter(function (item) {
-          return item.rating > 2;
-        }).sort(function (a, b) {
-          if (a.rating > b.rating) {
-            return -1;
-          }
+        return filtered_reviews
+          .filter(function (item) {
+            return item.rating > 2;
+          })
+          .sort(function (a, b) {
+            if (a.rating > b.rating) {
+              return -1;
+            }
 
-          if (a.rating < b.rating) {
-            return 1;
-          }
+            if (a.rating < b.rating) {
+              return 1;
+            }
 
-          if (a.rating === b.rating) {
-            return 0;
-          }
-        });
+            if (a.rating === b.rating) {
+              return 0;
+            }
+          });
         break;
 
       case "reviews-bad":
-        filtered_reviews = filtered_reviews.filter(function (item) {
-          return item.rating < 3;
-        }).sort(function (a, b) {
-          if (a.rating < b.rating) {
-            return -1;
-          }
+        return filtered_reviews
+          .filter(function (item) {
+            return item.rating < 3;
+          })
+          .sort(function (a, b) {
+            if (a.rating < b.rating) {
+              return -1;
+            }
 
-          if (a.rating > b.rating) {
-            return 1;
-          }
+            if (a.rating > b.rating) {
+              return 1;
+            }
 
-          if (a.rating === b.rating) {
-            return 0;
-          }
-        });
+            if (a.rating === b.rating) {
+              return 0;
+            }
+          });
         break;
 
       case "reviews-popular":
-        filtered_reviews = filtered_reviews.sort(function (a, b) {
+        return filtered_reviews.sort(function (a, b) {
           if (a["review-rating"] > b["review-rating"]) {
             return -1;
           }
@@ -184,11 +180,8 @@
         break;
 
       default:
-        filtered_reviews = reviews.slice(0);
-        break;
+        return reviews.slice(0);
     }
-
-    return filtered_reviews;
   }
 
   function init_filters() {
