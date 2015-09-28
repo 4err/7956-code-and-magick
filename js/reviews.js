@@ -74,7 +74,7 @@
       if (load.readyState === 4) {
         if (load.status === 200) {
           var data = load.response;
-          return callback(JSON.parse(data));
+          return callback(null, JSON.parse(data));
         }
 
         if (load.status > 400) {
