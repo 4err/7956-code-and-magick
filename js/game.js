@@ -22,6 +22,6 @@
     }
   }
 
-  Game.addWizard = function() {
-    Game.entities.push(new Wizard());
+  Game.addEntity = function(entity) {
+    Game.entities.push(entity);
   };
