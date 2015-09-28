@@ -10,31 +10,31 @@
 
   Game.addEntity(wizard);
 
-//    window.onkeydown = function(event) {
-//
-//      if (event.keyCode == 39) {
-//        wizard.moveTo('right');
-//      }
-//
-//      if (event.keyCode == 37) {
-//        wizard.moveTo('left');
-//      }
-//    };
-//
-//    window.onkeyup = function(event) {
-//      if (event.keyCode == 38) {
-//        wizard.jump();
-//      }
-//    }
+    window.onkeydown = function(event) {
 
-  window.onkeydown = throttle(function (event) {
-    if (event.keyCode == 38) {
+      if (event.keyCode == 39) {
+        wizard.moveTo('right');
+      }
+
+      if (event.keyCode == 37) {
+        wizard.moveTo('left');
+      }
+    };
+
+    window.onkeyup = function(event) {
+      if (event.keyCode == 38) {
         wizard.jump();
       }
-        if (event.keyCode == 39) {
-          wizard.moveTo('right');
-        }
-}, 250);
+    }
+
+//  window.onkeydown = throttle(function (event) {
+//    if (event.keyCode == 38) {
+//        wizard.jump();
+//      }
+//        if (event.keyCode == 39) {
+//          wizard.moveTo('right');
+//        }
+//}, 10);
 
   function throttle(fn, threshhold, scope) {
   threshhold || (threshhold = 250);
