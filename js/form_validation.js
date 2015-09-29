@@ -1,71 +1,70 @@
-"use strict";
+'use strict';
 
-(function () {
+(function() {
 
   var form = document.forms[1];
 
-  var review_name = form["review-name"];
-  var review_text = form["review-text"];
-  var review_mark = form['review-mark'];
+  var reviewName = form['review-name'];
+  var reviewText = form['review-text'];
+  var reviewMark = form['review-mark'];
 
-  var label_form = document.getElementsByClassName('review-fields')[0];
-  var label_name = label_form.getElementsByClassName('review-fields-name')[0];
-  var label_text = label_form.getElementsByClassName("review-fields-text")[0];
+  var labelForm = document.getElementsByClassName('review-fields')[0];
+  var labelName = labelForm.getElementsByClassName('review-fields-name')[0];
+  var labelText = labelForm.getElementsByClassName('review-fields-text')[0];
 
-  function check_validation() {
-    if (review_name.value !== "") {
-      label_name.style.display = "none";
+  function checkValidation() {
+    if (reviewName.value !== '') {
+      labelName.style.display = 'none';
     } else {
-      label_name.style.display = "";
+      labelName.style.display = '';
     }
 
-    if (review_text.value !== "") {
-      label_text.style.display = "none";
+    if (reviewText.value !== '') {
+      labelText.style.display = 'none';
     } else {
-      label_text.style.display = "";
+      labelText.style.display = '';
     }
 
-    if (review_name.value !== "" && review_text.value !== "") {
-      label_form.style.display = "none";
+    if (reviewName.value !== '' && reviewText.value !== '') {
+      labelForm.style.display = 'none';
       return true;
     }
 
-    label_form.style.display = "";
+    labelForm.style.display = '';
     return false;
   }
 
-  function update_fields_from_cookies() {
-    var mark = docCookies.getItem("mark");
-    review_name.value = docCookies.getItem("name");
-    review_mark.value = docCookies.getItem("mark");
+  function updateFieldsFromCookies() {
+    reviewName.value = docCookies.getItem('name');
+    reviewMark.value = docCookies.getItem('mark');
 
-    check_validation();
+    checkValidation();
   }
 
-  review_name.onchange = function (event) {
-    check_validation();
+  reviewName.onchange = function() {
+    checkValidation();
   };
 
-  review_text.onchange = function (event) {
-    check_validation();
+  reviewText.onchange = function() {
+    checkValidation();
   };
 
-  form.onsubmit = function (event) {
+  form.onsubmit = function(event) {
     event.preventDefault();
 
-    if (check_validation()) {
+    if (checkValidation()) {
       var time = new Date().getTime();
-      var cookies_age = time + (time - new Date("27 December 1990").getTime());
+      var cookiesAge = time + (time - new Date('27 December 1990').getTime());
 
-      docCookies.setItem("name", review_name.value, cookies_age);
-      docCookies.setItem("mark", review_mark.value, cookies_age);
+      docCookies.setItem('name', reviewName.value, cookiesAge);
+      docCookies.setItem('mark', reviewMark.value, cookiesAge);
 
       form.submit();
     }
 
-    label_form.style.color = 'red';
-  }
+    labelForm.style.color = 'red';
+  };
 
-  update_fields_from_cookies();
+  updateFieldsFromCookies();
 
 })();
