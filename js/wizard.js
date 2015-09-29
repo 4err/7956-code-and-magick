@@ -1,12 +1,12 @@
-"use stirct";
+'use stirct';
 
 function Wizard() {
   this.w = 93;
   this.h = 90;
   this.speed = 3;
   this.image = new Image();
-  this.image.src = "../img/wizard.png";
-  this.direction = "right";
+  this.image.src = '../img/wizard.png';
+  this.direction = 'right';
   this.x = 0;
   this.y = Game.field.height - this.h;
   this.mass = 5;
@@ -17,7 +17,7 @@ function Wizard() {
 }
 
 Wizard.prototype.draw = function(context) {
-  if (this.direction == "right") {
+  if (this.direction == 'right') {
     context.drawImage(
       this.image,
       0,
