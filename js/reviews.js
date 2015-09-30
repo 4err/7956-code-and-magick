@@ -20,12 +20,12 @@
   var reviewsList;
 
   function showMoreButton() {
-    var show = currentPage < Math.ceil(reviewsList.length / reviewsOnPage);
+    var show = currentPage < Math.ceil(reviewsList.length / reviewsOnPage) - 1;
     var nextButton = document.querySelector('.reviews-controls-more');
+
     if (show) {
       nextButton.classList.remove('invisible');
-      console.log(nextButton);
-      nextButton.addEventListener('click', showNextReviews(event));
+      nextButton.addEventListener('click', showNextReviews);
     } else {
       nextButton.classList.add('invisible');
     }
@@ -33,8 +33,7 @@
 
   function showNextReviews(event) {
     event.preventDefault();
-    console.log('Загрузка следующей страницы.');
-    // renderReviews(reviewsList, currentPage++, false);
+    renderReviews(reviewsList, ++currentPage, false);
   }
 
   function renderReviews(reviews, page, updateList) {
@@ -121,6 +120,7 @@
 
   function filterReviews(reviews, filterName) {
     var filteredReviews = reviews.slice(0);
+    localStorage.setItem('filterName', filterName);
 
     switch (filterName) {
       case 'reviews-recent':
@@ -156,19 +156,20 @@
     }
   }
 
-  function setActiveFilter(filterId) {
-    reviewsList = filterReviews(reviewsAll, filterId);
+  function setActiveFilter(filterName) {
+    reviewsList = filterReviews(reviewsAll, filterName);
+    currentPage = 0;
     renderReviews(reviewsList, currentPage, true);
+    document.getElementById(filterName).checked = true;
   }
 
   function initFilters() {
-    var filterElements = document.querySelectorAll('.reviews-filter-item');
-    for (var i = 0, l = filterElements.length; i < l; i++) {
-      filterElements[i].onclick = function(event) {
-        var clickedFilter = event.currentTarget;
-        setActiveFilter(clickedFilter.htmlFor);
-      };
-    }
+    var filterElements = document.querySelector('.reviews-filter');
+
+    filterElements.addEventListener('click', function(event) {
+      var clickedFilter = event.target;
+      setActiveFilter(clickedFilter.id);
+    });
   }
 
   initFilters();
@@ -183,7 +184,7 @@
     } else {
       reviewsContainer.classList.remove('reviews-load-failure');
       reviewsAll = loadedReviews;
-      setActiveFilter('reviews-all');
+      setActiveFilter(localStorage.getItem('filterName') || 'reviews-all');
     }
   });
 
