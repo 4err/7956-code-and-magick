@@ -15,13 +15,43 @@
   var reviewsFilter = document.querySelector('.reviews-filter');
   var reviewsContainer = document.querySelector('.reviews-list');
   var reviewsAll;
+  var reviewsOnPage = 3;
+  var currentPage = 0;
+  var reviewsList;
 
-  function renderRevies(reviews) {
-    reviewsContainer.classList.remove('reviews-load-failure');
-    reviewsContainer.innerHTML = '';
+  function showMoreButton() {
+    var show = currentPage < Math.ceil(reviewsList.length / reviewsOnPage);
+    var nextButton = document.querySelector('.reviews-controls-more');
+    if (show) {
+      nextButton.classList.remove('invisible');
+      console.log(nextButton);
+      nextButton.addEventListener('click', showNextReviews(event));
+    } else {
+      nextButton.classList.add('invisible');
+    }
+  }
+
+  function showNextReviews(event) {
+    event.preventDefault();
+    console.log('Загрузка следующей страницы.');
+    // renderReviews(reviewsList, currentPage++, false);
+  }
+
+  function renderReviews(reviews, page, updateList) {
+    updateList = typeof updateList !== 'undefined' ? updateList : true;
+    page = page || 0;
+
+    if (updateList) {
+      reviewsContainer.classList.remove('reviews-load-failure');
+      reviewsContainer.innerHTML = '';
+    }
 
     var reviewTemplate = document.getElementById('review-template');
     var reviewFragment = document.createDocumentFragment();
+
+    var reviewsFrom = reviewsOnPage * page;
+    var reviewsTo = reviewsFrom + reviewsOnPage;
+    reviews = reviews.slice(reviewsFrom, reviewsTo);
 
     reviews.forEach(function(review) {
       var newReview = reviewTemplate.content.children[0].cloneNode(true);
@@ -60,6 +90,7 @@
 
     reviewsContainer.appendChild(reviewFragment);
     reviewsFilter.classList.remove('invisible');
+    showMoreButton();
   }
 
   function ajax(url, type, callback) {
@@ -126,8 +157,8 @@
   }
 
   function setActiveFilter(filterId) {
-    var filteredReviews = filterReviews(reviewsAll, filterId);
-    renderRevies(filteredReviews);
+    reviewsList = filterReviews(reviewsAll, filterId);
+    renderReviews(reviewsList, currentPage, true);
   }
 
   function initFilters() {
