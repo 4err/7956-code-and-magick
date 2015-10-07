@@ -32,11 +32,11 @@
 
   function showNextReviews(event) {
     event.preventDefault();
-    renderReviews(reviewsList, ++currentPage, false);
+    renderReviews(reviewsList, ++currentPage);
   }
 
   function renderReviews(reviews, page, updateList) {
-    updateList = typeof updateList !== 'undefined' ? updateList : true;
+    updateList = typeof updateList !== 'undefined' ? updateList : false;
     page = page || 0;
 
     if (updateList) {
