@@ -18,14 +18,13 @@
   var reviewsOnPage = 3;
   var currentPage = 0;
   var reviewsList;
+  var nextButton = document.querySelector('.reviews-controls-more');
 
   function showMoreButton() {
     var show = currentPage < Math.ceil(reviewsList.length / reviewsOnPage) - 1;
-    var nextButton = document.querySelector('.reviews-controls-more');
 
     if (show) {
       nextButton.classList.remove('invisible');
-      nextButton.addEventListener('click', showNextReviews);
     } else {
       nextButton.classList.add('invisible');
     }
@@ -167,14 +166,16 @@
     var filterElements = document.querySelector('.reviews-filter');
 
     filterElements.addEventListener('click', function(event) {
-      var clickedFilter = event.target;
-      setActiveFilter(clickedFilter.id);
+      if (event.target.id) {
+        setActiveFilter(event.target.id);
+      }
     });
   }
 
   initFilters();
   reviewsFilter.classList.add('invisible');
   reviewsContainer.classList.add('reviews-list-loading');
+  nextButton.addEventListener('click', showNextReviews);
 
   ajax('data/reviews.json', 'get', function(err, loadedReviews) {
     reviewsContainer.classList.remove('reviews-list-loading');
