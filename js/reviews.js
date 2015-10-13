@@ -36,7 +36,7 @@
   }
 
   function renderReviews(reviews, page, updateList) {
-    updateList = typeof updateList !== 'undefined' ? updateList : false;
+    updateList = !!updateList;
     page = page || 0;
 
     if (updateList) {
@@ -166,7 +166,7 @@
     var filterElements = document.querySelector('.reviews-filter');
 
     filterElements.addEventListener('click', function(event) {
-      if (event.target.id) {
+      if (event.target.tagName == 'INPUT') {
         setActiveFilter(event.target.id);
       }
     });
