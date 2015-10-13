@@ -166,7 +166,7 @@
     var filterElements = document.querySelector('.reviews-filter');
 
     filterElements.addEventListener('click', function(event) {
-      if (event.target.tagName == 'INPUT') {
+      if (event.target.tagName === 'INPUT') {
         setActiveFilter(event.target.id);
       }
     });
