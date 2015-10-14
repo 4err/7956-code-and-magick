@@ -1,33 +1,39 @@
 'use strict';
 
-(function () {
+(function() {
   var clouds = document.querySelector('.header-clouds');
   var cloudsVisibility = true;
-  clouds.style.left = '0px';
+  clouds.style.backgroundPositionX = '50%';
+  var left = 50;
 
   function checkVisibleClouds() {
     var cloudsVisiblePart = clouds.getBoundingClientRect().bottom;
-    if (cloudsVisiblePart > 0) {
+    if (cloudsVisiblePart < 0) {
       window.dispatchEvent(new CustomEvent('cloudsHidden'));
+    } else {
+      window.dispatchEvent(new CustomEvent('cloudsShow'));
     }
+
   }
 
-  function initScroll() {
-    var checkTimeout;
-    window.addEventListener('scroll', function () {
-      clearTimeout(checkTimeout);
-      checkTimeout = setTimeout(checkVisibleClouds, 100);
-    });
+  var checkTimeout;
 
-    window.addEventListener('cloudsHidden', function () {
-      cloudsVisibility = false;
-    });
-  }
-
-  window.addEventListener('scroll', function () {
+  window.addEventListener('scroll', function(evt) {
+    console.log(evt);
     if (cloudsVisibility) {
-      var oldLeft = parseInt(clouds.style.left, 10);
-      clouds.style.left = oldLeft + 10 + 'px';
+      clouds.style.backgroundPositionX = left + 5 + '%';
+      left += 5;
     }
+
+    clearTimeout(checkTimeout);
+    checkTimeout = setTimeout(checkVisibleClouds, 100);
   });
+
+  window.addEventListener('cloudsHidden', function() {
+    cloudsVisibility = false;
+  });
+  window.addEventListener('cloudsShow', function() {
+    cloudsVisibility = true;
+  });
+
 })();

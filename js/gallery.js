@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(function() {
 
   var Key = {
     'ESC': 27,
@@ -8,7 +8,7 @@
     'RIGHT': 39
   };
 
-  var photogallery = document.querySelector('.photogallery');
+  var photoGallery = document.querySelector('.photogallery');
   var galleryOverlay = document.querySelector('.overlay-gallery');
   var closeButton = galleryOverlay.querySelector('.overlay-gallery-close');
   var leftButton = galleryOverlay.querySelector('.overlay-gallery-control-left');
@@ -16,35 +16,44 @@
 
   function hideGallery() {
     galleryOverlay.classList.add('invisible');
-    closeButton.removeEventListener('click');
-    leftButton.removeEventListener('click');
-    rightButton.removeEventListener('click');
+    closeButton.removeEventListener('click', closeHandler);
+    leftButton.removeEventListener('click', leftButtonHandler);
+    rightButton.removeEventListener('click', rightButtonHandler);
     document.body.removeEventListener('keydown', keyHandler);
+  }
+
+  function showNextImage() {
+    console.log('Show next image');
+  }
+
+  function showPrevImage() {
+    console.log('Show prev image');
+  }
+
+  function closeHandler(evt) {
+    evt.preventDefault();
+    hideGallery();
+  }
+
+  function leftButtonHandler(evt) {
+    evt.preventDefault();
+    showPrevImage();
+  }
+
+  function rightButtonHandler(evt) {
+    evt.preventDefault();
+    showNextImage();
   }
 
   function showGallery() {
     galleryOverlay.classList.remove('invisible');
-
-    closeButton.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      hideGallery();
-    });
-
-    leftButton.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      console.log('Left');
-    });
-
-    rightButton.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      console.log('Right');
-    });
-
+    closeButton.addEventListener('click', closeHandler);
+    leftButton.addEventListener('click', leftButtonHandler);
+    rightButton.addEventListener('click', rightButtonHandler);
     document.body.addEventListener('keydown', keyHandler);
   }
 
-
-  photogallery.addEventListener('click', function (evt) {
+  photoGallery.addEventListener('click', function(evt) {
     evt.preventDefault();
     showGallery();
   });
@@ -52,10 +61,10 @@
   function keyHandler(evt) {
     switch (evt.keyCode) {
       case Key.LEFT:
-        console.log('Left');
+        showPrevImage();
         break;
       case Key.RIGHT:
-        console.log('Right');
+        showNextImage();
         break;
       case Key.ESC:
       default:
