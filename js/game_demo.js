@@ -6,6 +6,7 @@
   clouds.style.backgroundPositionX = '50%';
 
   function checkVisibleClouds() {
+    console.log(1);
     var cloudsVisiblePart = clouds.getBoundingClientRect().bottom;
     if (cloudsVisiblePart < 0) {
       window.dispatchEvent(new CustomEvent('cloudsHidden'));
@@ -13,18 +14,35 @@
       window.dispatchEvent(new CustomEvent('cloudsShow'));
     }
   }
-  var checkTimeout;
-  function throttle(method, time) {
-    clearTimeout(checkTimeout);
-    checkTimeout = setTimeout(method, time);
-  }
+function throttle(fn, timeout) {
+  var last = 0;
+  var timer = 0;
+  var handler = function() {
+    timer = 0;
+    last = Date.now();
+    fn.apply(null, arguments);
+  };
+
+  return function() {
+    var args = arguments;
+    var now = Date.now();
+    if (now > last + timeout) {
+      handler.apply(null, args);
+    } else if (!timer) {
+      timer = setTimeout(function() {
+        handler.apply(null, args);
+      }, last + timeout - now);
+    }
+  };
+}
+  var throttled = throttle(checkVisibleClouds, 1000);
 
   window.addEventListener('scroll', function() {
     if (cloudsVisibility) {
-      clouds.style.backgroundPositionX = document.body.scrollTop + 'px';
+      clouds.style.backgroundPositionX = document.body.scrollTop/2 + 'px';
     }
 
-    throttle(checkVisibleClouds, 100);
+    throttled();
   });
 
   window.addEventListener('cloudsHidden', function() {
