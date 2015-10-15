@@ -19,7 +19,7 @@
     checkTimeout = setTimeout(method, time);
   }
 
-  window.addEventListener('scroll', function(evt) {
+  window.addEventListener('scroll', function() {
     if (cloudsVisibility) {
       clouds.style.backgroundPositionX = document.body.scrollTop + 'px';
     }
