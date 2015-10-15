@@ -2,14 +2,6 @@
 
 (function() {
 
-  var ratingClassname = {
-    1: 'review-rating-one',
-    2: 'review-rating-two',
-    3: 'review-rating-three',
-    4: 'review-rating-four',
-    5: 'review-rating-five'
-  };
-
   var REQUEST_FAILURE_TIMEOUT = 10000;
 
   var reviewsFilter = document.querySelector('.reviews-filter');
@@ -18,6 +10,7 @@
   var reviewsOnPage = 3;
   var currentPage = 0;
   var reviewsList;
+  var renderedReviews = [];
   var nextButton = document.querySelector('.reviews-controls-more');
 
   function showMoreButton() {
@@ -40,50 +33,24 @@
     page = page || 0;
 
     if (updateList) {
+      var el;
+      while ((el = renderedReviews.shift())) {
+        el.unrender();
+      }
+
       reviewsContainer.classList.remove('reviews-load-failure');
-      reviewsContainer.innerHTML = '';
     }
 
-    var reviewTemplate = document.getElementById('review-template');
     var reviewFragment = document.createDocumentFragment();
 
     var reviewsFrom = reviewsOnPage * page;
     var reviewsTo = reviewsFrom + reviewsOnPage;
     reviews = reviews.slice(reviewsFrom, reviewsTo);
 
-    reviews.forEach(function(review) {
-      var newReview = reviewTemplate.content.children[0].cloneNode(true);
-
-      var originalImage = newReview.querySelector('.review-author');
-
-      originalImage.title = review['author']['name'];
-      newReview.querySelector('.review-rating').classList.add(ratingClassname[review['rating']]);
-      newReview.querySelector('.review-text').textContent = review['description'];
-
-      if (review['author']['picture']) {
-        var authorImage = new Image();
-
-        authorImage.src = review['author']['picture'];
-
-        var imageLoadTimeout = setTimeout(function() {
-          newReview.classList.add('review-load-failure');
-        }, REQUEST_FAILURE_TIMEOUT);
-
-        authorImage.onload = function() {
-          authorImage.classList.add('review-author');
-          authorImage.title = review['author']['name'];
-          authorImage.style.width = '124px';
-          authorImage.style.height = '124px';
-          newReview.replaceChild(authorImage, originalImage);
-          clearTimeout(imageLoadTimeout);
-        };
-
-        authorImage.onerror = function() {
-          newReview.classList.add('review-load-failure');
-        };
-      }
-
-      reviewFragment.appendChild(newReview);
+    reviews.forEach(function(reviewData) {
+      var newReviewEl = new Review(reviewData);
+      newReviewEl.render(reviewFragment);
+      renderedReviews.push(newReviewEl);
     });
 
     reviewsContainer.appendChild(reviewFragment);
