@@ -55,7 +55,9 @@
 
   photoGallery.addEventListener('click', function(evt) {
     evt.preventDefault();
-    showGallery();
+    if (evt.target.tagName === 'IMG') {
+      showGallery();
+    }
   });
 
   function keyHandler(evt) {
