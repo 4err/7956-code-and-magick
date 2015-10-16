@@ -17,19 +17,19 @@
   function throttle(fn, timeout) {
     var last = 0;
     var timer = 0;
-    var handler = function () {
+    var handler = function() {
       timer = 0;
       last = Date.now();
       fn.apply(null, arguments);
     };
 
-    return function () {
+    return function() {
       var args = arguments;
       var now = Date.now();
       if (now > last + timeout) {
         handler.apply(null, args);
       } else if (!timer) {
-        timer = setTimeout(function () {
+        timer = setTimeout(function() {
           handler.apply(null, args);
         }, last + timeout - now);
       }
@@ -40,7 +40,7 @@
 
   window.addEventListener('scroll', function() {
     if (cloudsVisibility) {
-      clouds.style.backgroundPositionX = document.body.scrollTop/2 + 'px';
+      clouds.style.backgroundPositionX = document.body.scrollTop / 2 + 'px';
     }
 
     checkVisibleCloudsThrottled();
