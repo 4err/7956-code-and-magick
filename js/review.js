@@ -16,7 +16,7 @@
 
   var Review = function(data) {
     this._data = data;
-  }
+  };
 
   Review.prototype.render = function(container) {
     var newReview = reviewTemplate.content.children[0].cloneNode(true);
@@ -36,7 +36,7 @@
       var imageLoadTimeout = setTimeout(function() {
         newReview.classList.add('review-load-failure');
       }, REQUEST_FAILURE_TIMEOUT);
-      
+
       authorImage.onload = function() {
         authorImage.classList.add('review-author');
         authorImage.style.width = '124px';
@@ -51,14 +51,13 @@
     }
 
     container.appendChild(newReview);
-    
     this._element = newReview;
-  }
-  
+  };
+
   Review.prototype.unrender = function() {
     this._element.parentNode.removeChild(this._element);
     this._element = null;
-  }
-  
+  };
+
   window.Review = Review;
 })();

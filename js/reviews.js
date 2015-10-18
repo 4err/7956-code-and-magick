@@ -1,3 +1,4 @@
+/*Global Review*/
 'use strict';
 
 (function() {
