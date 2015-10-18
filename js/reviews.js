@@ -1,4 +1,5 @@
-/*Global Review*/
+/*global
+    Review: true*/
 'use strict';
 
 (function() {
