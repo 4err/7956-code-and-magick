@@ -101,7 +101,6 @@
 
   Gallery.prototype.setCurrentPhoto = function(num) {
     num = clamp(num, 0, this._photos.length - 1);
-    console.log(num);
 
     if (this._currentPhoto === num) {
       return;
