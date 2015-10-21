@@ -106,13 +106,11 @@
   };
 
   Gallery.prototype.findClickedPhoto = function(currentPhoto) {
-    var photo = 0;
     this._photos.forEach(function(val, i) {
       if (val === currentPhoto.src) {
-        photo = i;
+        this.setCurrentPhoto(i);
       }
-    });
-    this.setCurrentPhoto(photo);
+    }, this);
   };
 
   window.Gallery = Gallery;
