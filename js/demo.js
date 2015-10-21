@@ -32,11 +32,11 @@
 
   (function() {
     var onEachFrame;
-    if (window.RequestAnimationFrame) {
+    if (window.requestAnimationFrame) {
       onEachFrame = function(cb) {
         var _cb = function() {
           cb();
-          webkitRequestAnimationFrame(_cb);
+          requestAnimationFrame(_cb);
         }
         _cb();
       };
