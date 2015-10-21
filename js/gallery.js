@@ -43,7 +43,6 @@
     this._rightButton.removeEventListener('click', this._onRightButtonClickn);
     document.body.removeEventListener('keydown', this._onKeyDown);
 
-    this._photos = [];
     this._currentPhoto = 0;
   };
 
@@ -102,12 +101,18 @@
   Gallery.prototype.setCurrentPhoto = function(num) {
     num = clamp(num, 0, this._photos.length - 1);
 
-    if (this._currentPhoto === num) {
-      return;
-    }
-
     this._currentPhoto = num;
     this.showCurrentPhoto();
+  };
+
+  Gallery.prototype.findClickedPhoto = function(currentPhoto) {
+    var photo = 0;
+    this._photos.forEach(function(val, i) {
+      if (val === currentPhoto.src) {
+        photo = i;
+      }
+    });
+    this.setCurrentPhoto(photo);
   };
 
   window.Gallery = Gallery;
@@ -115,24 +120,16 @@
   var photoGalleryOverlay = new Gallery();
   var photoGallery = document.querySelector('.photogallery');
   var photosArray = document.querySelectorAll('.photogallery img');
-
-  function fillGallery(currentPhoto) {
-    var photos = [];
-    var currPhoto = 0;
-    for (var i = 0; i < photosArray.length; ++i) {
-      photos.push(photosArray[i].src);
-      if (photosArray[i].src === currentPhoto.src) {
-        currPhoto = i;
-      }
-    }
-    photoGalleryOverlay.setPhotos(photos);
-    photoGalleryOverlay.setCurrentPhoto(currPhoto);
+  var photos = [];
+  for (var i = 0; i < photosArray.length; ++i) {
+    photos.push(photosArray[i].src);
   }
+  photoGalleryOverlay.setPhotos(photos);
 
   photoGallery.addEventListener('click', function(event) {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
-      fillGallery(event.target);
+      photoGalleryOverlay.findClickedPhoto(event.target);
       photoGalleryOverlay.showGallery();
     }
   });
