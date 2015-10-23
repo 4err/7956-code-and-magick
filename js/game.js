@@ -30,7 +30,7 @@
    * @type {Array.<Array>}
    */
   var Messages = {
-    'HELLO': ['Для начала игры нажмите SPACE', 'СТРЕЛОЧКИ - управление магом', '', 'SHIFT - стрельба файрболом', 'Удачи!'],
+    'HELLO': ['Для начала игры нажмите SPACE', 'СТРЕЛОЧКИ - управление магом', 'SHIFT - стрельба файрболом', '', 'Удачи!'],
     'PAUSE': ['', '', 'ПАУЗА', '', 'Нажмите SPACE'],
     'WIN': ['ПОБЕДА ^_^', 'Вы победили в игре!', 'Начать заново?', '', 'Нажмите SPACE'],
     'LOOSE': ['ПРОИГРЫШ :(', 'Увы, вы проиграли!', 'Начать заново?', '', 'Нажмите SPACE']
@@ -411,29 +411,29 @@
 
       this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       this.ctx.beginPath();
-      this.ctx.moveTo(340, 160);
+      this.ctx.moveTo(310, 160);
       this.ctx.lineTo(630, 160);
       this.ctx.lineTo(610, 280);
-      this.ctx.lineTo(360, 280);
+      this.ctx.lineTo(330, 280);
       this.ctx.fill();
 
       this.ctx.fillStyle = '#FFFFFF';
       this.ctx.beginPath();
-      this.ctx.moveTo(330, 150);
+      this.ctx.moveTo(300, 150);
       this.ctx.lineTo(620, 150);
       this.ctx.lineTo(600, 270);
-      this.ctx.lineTo(350, 270);
+      this.ctx.lineTo(320, 270);
       this.ctx.fill();
     },
 
     _printMessage: function(message) {
-      var x = 470;
-      var y = 170;
+      var x = 460;
+      var y = 175;
       this.ctx.fillStyle = '#000000';
       this.ctx.textAlign = 'center';
       this.ctx.font = '16px PT Mono';
       message.forEach(function(val, i) {
-        this.ctx.fillText(val, x + i * 5, y + i * 22);
+        this.ctx.fillText(val, x, y + i * 22);
       }, this);
     },
 
@@ -566,8 +566,8 @@
            */
           function checkTime(state) {
             return Date.now() - state.startTime > 3 * 60 * 1000 ?
-              Verdict.FAIL :
-              Verdict.CONTINUE;
+                Verdict.FAIL :
+                Verdict.CONTINUE;
           }
         ];
       }
