@@ -26,6 +26,17 @@
   };
 
   /**
+   * Игровые сообщения.
+   * @type {Array.<Array>}
+   */
+  var Messages = {
+    'HELLO': ['Для начала игры нажмите SPACE', 'СТРЕЛОЧКИ - управление магом', 'SHIFT - стрельба файрболом', '', 'Удачи!'],
+    'PAUSE': ['', '', 'ПАУЗА', '', 'Нажмите SPACE'],
+    'WIN': ['ПОБЕДА ^_^', 'Вы победили в игре!', 'Начать заново?', '', 'Нажмите SPACE'],
+    'LOOSE': ['ПРОИГРЫШ :(', 'Увы, вы проиграли!', 'Начать заново?', '', 'Нажмите SPACE']
+  };
+
+  /**
    * Порядок прохождения уровней.
    * @type {Array.<Level>}
    */
@@ -379,18 +390,51 @@
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this._printCanvas();
+          this._printMessage(Messages.WIN);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          this._printCanvas();
+          this._printMessage(Messages.LOOSE);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          this._printCanvas();
+          this._printMessage(Messages.PAUSE);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          this._printCanvas();
+          this._printMessage(Messages.HELLO);
           break;
       }
+    },
+    _printCanvas: function() {
+
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.beginPath();
+      this.ctx.moveTo(310, 160);
+      this.ctx.lineTo(630, 160);
+      this.ctx.lineTo(610, 280);
+      this.ctx.lineTo(330, 280);
+      this.ctx.fill();
+
+      this.ctx.fillStyle = '#FFFFFF';
+      this.ctx.beginPath();
+      this.ctx.moveTo(300, 150);
+      this.ctx.lineTo(620, 150);
+      this.ctx.lineTo(600, 270);
+      this.ctx.lineTo(320, 270);
+      this.ctx.fill();
+    },
+
+    _printMessage: function(message) {
+      var x = 460;
+      var y = 175;
+      this.ctx.fillStyle = '#000000';
+      this.ctx.textAlign = 'center';
+      this.ctx.font = '16px PT Mono';
+      message.forEach(function(val, i) {
+        this.ctx.fillText(val, x, y + i * 22);
+      }, this);
     },
 
     /**
@@ -571,8 +615,8 @@
         if (object.sprite) {
           var image = new Image(object.width, object.height);
           image.src = (object.spriteReversed && object.direction & Direction.LEFT) ?
-              object.spriteReversed :
-              object.sprite;
+            object.spriteReversed :
+            object.sprite;
           this.ctx.drawImage(image, object.x, object.y, object.width, object.height);
         }
       }, this);
@@ -664,8 +708,4 @@
 
   window.Game = Game;
   window.Game.Verdict = Verdict;
-
-  var game = new Game(document.querySelector('.demo'));
-  game.initializeLevelAndStart();
-  game.setGameStatus(Verdict.INTRO);
 })();
