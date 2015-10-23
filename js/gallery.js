@@ -20,7 +20,7 @@
     this._pictureElement = this._galleryOverlay.querySelector('.overlay-gallery-preview');
 
     this._currentPhoto = 0;
-    this._photos = [];
+    this._photos = new Backbone.Collection();
 
     this._onCloseClick = this._onCloseClick.bind(this);
     this._onLeftButtonClick = this._onLeftButtonClick.bind(this);
@@ -49,11 +49,11 @@
   Gallery.prototype.showCurrentPhoto = function() {
     this._pictureElement.innerHTML = '';
 
-    var image = new Image();
-    image.src = this._photos[this._currentPhoto];
-    image.onload = function() {
-      this._pictureElement.appendChild(image);
-    }.bind(this);
+    var imageElement = new GalleryPicture({
+      model: this._photos.at(this._currentPhoto)
+    });
+    imageElement.render();
+    this._pictureElement.appendChild(imageElement.el);
   };
 
   Gallery.prototype._onCloseClick = function(event) {
@@ -95,7 +95,11 @@
   };
 
   Gallery.prototype.setPhotos = function(photos) {
-    this._photos = photos;
+    this._photos.reset(photos.map(function(photoSrc) {
+      return new Backbone.Model({
+        url: photoSrc
+      });
+    }));
   };
 
   Gallery.prototype.setCurrentPhoto = function(num) {
@@ -107,7 +111,7 @@
 
   Gallery.prototype.findClickedPhoto = function(currentPhoto) {
     this._photos.forEach(function(val, i) {
-      if (val === currentPhoto.src) {
+      if (val.get('url') === currentPhoto.src) {
         this.setCurrentPhoto(i);
       }
     }, this);

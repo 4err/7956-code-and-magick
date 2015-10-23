@@ -408,7 +408,6 @@
       }
     },
     _printCanvas: function() {
-
       this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       this.ctx.beginPath();
       this.ctx.moveTo(310, 160);

@@ -38,19 +38,17 @@
       this.el.querySelector('.review-text').textContent = this.model.get('description');
 
       if (this.model.get('author').picture) {
-        var authorImage = new Image();
-
-        authorImage.src = this.model.get('author').picture;
-        authorImage.title = this.model.get('author').name;
+        originalImage.src = this.model.get('author').picture;
 
         this._imageLoadTimeout = setTimeout(function() {
           this.el.classList.add('review-load-failure');
         }.bind(this), REQUEST_FAILURE_TIMEOUT);
 
-        authorImage.addEventListener('load', this._onImageLoad);
-        authorImage.addEventListener('error', this._onImageFail);
-        authorImage.addEventListener('abort', this._onImageFail);
+        originalImage.addEventListener('load', this._onImageLoad);
+        originalImage.addEventListener('error', this._onImageFail);
+        originalImage.addEventListener('abort', this._onImageFail);
       }
+
       this._updateUseful();
     },
 
@@ -71,11 +69,6 @@
 
       var loadedImage = evt.path[0];
       this._cleanupImageListeners(loadedImage);
-
-      this.el.src = loadedImage.src;
-      this.el.classList.add('review-author');
-      this.el.style.width = '124px';
-      this.el.style.height = '124px';
     },
 
     _onImageFail: function(evt) {
@@ -96,10 +89,15 @@
       yesButton.classList.remove('review-quiz-answer-active');
       noButton.classList.remove('review-quiz-answer-active');
 
-      if (this.model.get('useful')) {
-        yesButton.classList.add('review-quiz-answer-active');
-      } else {
-        noButton.classList.remove('review-quiz-answer-active');
+      switch (this.model.get('useful')) {
+        case 1:
+          yesButton.classList.add('review-quiz-answer-active');
+          break;
+        case 0:
+          noButton.classList.add('review-quiz-answer-active');
+          break;
+        case -1:
+          break;
       }
 
     },

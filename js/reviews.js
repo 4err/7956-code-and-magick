@@ -8,7 +8,9 @@
   var REQUEST_FAILURE_TIMEOUT = 10000;
 
   var reviewsFilter = document.querySelector('.reviews-filter');
+
   var reviewsContainer = document.querySelector('.reviews-list');
+
   var reviewsCollection = new ReviewsCollection();
   var currentPage = 0;
   var initiallyLoaded = [];
@@ -52,13 +54,11 @@
         model: model
       });
       view.render();
-      console.log('render review');
       reviewFragment.appendChild(view.el);
       renderedReviews.push(view);
     });
 
     reviewsContainer.appendChild(reviewFragment);
-    console.log(reviewsContainer, reviewFragment);
     reviewsFilter.classList.remove('invisible');
     showMoreButton();
   }
@@ -75,16 +75,16 @@
         break;
 
       case 'reviews-good':
-        filteredReviews
+        filteredReviews = filteredReviews
           .filter(function(item) {
             return item.rating > 2;
-          })
-          .sort(function(a, b) {
+          }).sort(function(a, b) {
             return b.rating - a.rating;
           });
         break;
+
       case 'reviews-bad':
-        filteredReviews
+        filteredReviews = filteredReviews
           .filter(function(item) {
             return item.rating < 3;
           })
@@ -92,13 +92,14 @@
             return a.rating - b.rating;
           });
         break;
+
       case 'reviews-popular':
         filteredReviews.sort(function(a, b) {
           return b['review-rating'] - a['review-rating'];
         });
         break;
       default:
-
+        initiallyLoaded.slice(0);
     }
 
     reviewsCollection.reset(filteredReviews);
@@ -121,19 +122,17 @@
     });
   }
 
-
-//  reviewsFilter.classList.add('invisible');
-//  reviewsContainer.classList.add('reviews-list-loading');
+  reviewsFilter.classList.add('invisible');
+  reviewsContainer.classList.add('reviews-list-loading');
 
   reviewsCollection.fetch({
     timeout: REQUEST_FAILURE_TIMEOUT
   }).success(function(loaded, state, jqXHR) {
     initiallyLoaded = jqXHR.responseJSON;
     initFilters();
-//    reviewsContainer.classList.remove('reviews-load-failure');
-//    nextButton.addEventListener('click', showNextReviews);
-//    reviewsFilter.classList.remove('invisible');
-//    reviewsContainer.classList.remove('reviews-list-loading');
+    reviewsContainer.classList.remove('reviews-load-failure');
+    nextButton.addEventListener('click', showNextReviews);
+    reviewsContainer.classList.remove('reviews-list-loading');
     setActiveFilter(localStorage.getItem('filterName') || 'reviews-all');
   }).fail(function() {
     reviewsContainer.classList.add('reviews-load-failure');
