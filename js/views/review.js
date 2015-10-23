@@ -58,42 +58,58 @@
       var clickedElement = event.target;
 
       if (event.target.classList.contains('review-quiz-answer')) {
-        if (this.model.get('useful')) {
-          this.model.unuseful();
-        } else {
+        if (event.target.classList.contains('review-quiz-answer-yes')) {
           this.model.useful();
+        } else {
+          this.model.unuseful();
         }
       }
     },
+
     _onImageLoad: function(evt) {
       clearTimeout(this._imageLoadTimeout);
 
       var loadedImage = evt.path[0];
       this._cleanupImageListeners(loadedImage);
 
-      this.el.style.backgroundImage = 'url(\'' + loadedImage.src + '\')';
+      this.el.src = loadedImage.src;
       this.el.classList.add('review-author');
       this.el.style.width = '124px';
       this.el.style.height = '124px';
     },
+
     _onImageFail: function(evt) {
       var failedImage = evt.path[0];
       this._cleanupImageListeners(failedImage);
 
-      failedImage.src = 'failed.jpg';
       this.el.classList.add('review-load-failure');
     },
+
     _onModelUseful: function() {
       this._updateUseful();
     },
 
     _updateUseful: function() {
-      var likeButton = this.el.querySelector('.hotel-favourite');
+      var yesButton = this.el.querySelector('.review-quiz-answer-yes');
+      var noButton = this.el.querySelector('.review-quiz-answer-no');
 
-      if (likeButton) {
-        likeButton.classList.toggle('hotel-favourite-liked', this.model.get('liked'));
+      yesButton.classList.remove('review-quiz-answer-active');
+      noButton.classList.remove('review-quiz-answer-active');
+
+      if (this.model.get('useful')) {
+        yesButton.classList.add('review-quiz-answer-active');
+      } else {
+        noButton.classList.remove('review-quiz-answer-active');
       }
+
     },
+    _cleanupImageListeners: function(image) {
+      image.removeEventListener('load', this._onImageLoad);
+      image.removeEventListener('error', this._onImageError);
+      image.removeEventListener('abort', this._onImageError);
+    }
   });
+
+  window.ReviewView = ReviewView;
 
 })();
