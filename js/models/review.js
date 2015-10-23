@@ -1,4 +1,4 @@
-'use stirct';
+'use strict';
 
 (function() {
   var ReviewModel = Backbone.Model.extend({

@@ -1,4 +1,4 @@
-'use stirct';
+'use strict';
 
 (function() {
 
@@ -55,8 +55,8 @@
     _onClick: function(event) {
       var clickedElement = event.target;
 
-      if (event.target.classList.contains('review-quiz-answer')) {
-        if (event.target.classList.contains('review-quiz-answer-yes')) {
+      if (clickedElement.classList.contains('review-quiz-answer')) {
+        if (clickedElement.classList.contains('review-quiz-answer-yes')) {
           this.model.useful();
         } else {
           this.model.unuseful();
