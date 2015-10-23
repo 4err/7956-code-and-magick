@@ -11,7 +11,6 @@
 
 <header>
   <div class="header-clouds"></div>
-  <div class="header-wizard"></div>
   <div class="header-fence"></div>
   <div class="header-tree"></div>
 
@@ -33,7 +32,7 @@
     <a href="#" class="photogallery-image"><img src="img/screenshots/3.png" width="292" /></a>
     <a href="#" class="photogallery-image"><img src="img/screenshots/4.png" height="271" /></a>
     <a href="#" class="photogallery-image"><img src="img/screenshots/5.png" height="271" /></a>
-    <a href="#" class="photogallery-image"><img src="img/screenshots/6.png" width="292" /></a>
+    <a href="#" class="photogallery-image" data-replacement-video="img/screenshots/cm-sample.mp4"><img src="img/screenshots/6.png" width="292" /></a>
   </section>
 
   <section class="main-section reviews">
@@ -115,13 +114,14 @@
     <p class="review-text"></p>
     <div class="review-quiz">
       Полезный отзыв?
-      <span class="review-quiz-answer">Да</span>
-      <span class="review-quiz-answer">Нет</span>
+      <span class="review-quiz-answer review-quiz-answer-yes">Да</span>
+      <span class="review-quiz-answer review-quiz-answer-no">Нет</span>
     </div>
   </article>
 </template>
 
 <script src="js/form.js"></script>
+<script src="js/game.js"></script>
 <script src="lib/cookies.js"></script>
 <script src="js/form_validation.js"></script>
 <script src="js/review.js"></script>

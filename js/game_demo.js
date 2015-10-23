@@ -1,3 +1,5 @@
+/*global
+  Game: true;*/
 'use strict';
 
 (function() {
@@ -40,7 +42,12 @@
 
   window.addEventListener('scroll', function() {
     if (cloudsVisibility) {
-      clouds.style.backgroundPositionX = document.body.scrollTop / 2 + 'px';
+      window.requestAnimationFrame(function() {
+        clouds.style.backgroundPositionX = document.body.scrollTop / 2 + 'px';
+      });
+      game.setGameStatus(Game.Verdict.CONTINUE);
+    } else {
+      game.setGameStatus(Game.Verdict.PAUSE);
     }
 
     checkVisibleCloudsThrottled();
@@ -54,4 +61,7 @@
     cloudsVisibility = true;
   });
 
+  var game = new Game(document.querySelector('.demo'));
+  game.initializeLevelAndStart();
+  game.setGameStatus(Game.Verdict.INTRO);
 })();
