@@ -430,8 +430,8 @@
       var x = 470;
       var y = 170;
       this.ctx.fillStyle = '#000000';
-      this.ctx.textAlign = "center";
-      this.ctx.font = "16px PT Mono";
+      this.ctx.textAlign = 'center';
+      this.ctx.font = '16px PT Mono';
       message.forEach(function(val, i) {
         this.ctx.fillText(val, x + i * 5, y + i * 22);
       }, this);
