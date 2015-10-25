@@ -57,9 +57,9 @@
 
       if (clickedElement.classList.contains('review-quiz-answer')) {
         if (clickedElement.classList.contains('review-quiz-answer-yes')) {
-          this.model.useful();
+          this.model.set('useful', true);
         } else {
-          this.model.unuseful();
+          this.model.set('useful', false);
         }
       }
     },
@@ -85,20 +85,24 @@
     _updateUseful: function() {
       var yesButton = this.el.querySelector('.review-quiz-answer-yes');
       var noButton = this.el.querySelector('.review-quiz-answer-no');
+      var useful = this.model.get('useful');
 
       yesButton.classList.remove('review-quiz-answer-active');
       noButton.classList.remove('review-quiz-answer-active');
 
-      switch (this.model.get('useful')) {
-        case 1:
-          yesButton.classList.add('review-quiz-answer-active');
-          break;
-        case 0:
-          noButton.classList.add('review-quiz-answer-active');
-          break;
-        case -1:
-          break;
-      }
+      yesButton.classList.toggle('review-quiz-answer-active', useful);
+      noButton.classList.toggle('review-quiz-answer-active', !useful);
+
+//      switch (this.model.get('useful')) {
+//        case 1:
+//          yesButton.classList.add('review-quiz-answer-active');
+//          break;
+//        case 0:
+//          noButton.classList.add('review-quiz-answer-active');
+//          break;
+//        case -1:
+//          break;
+//      }
 
     },
     _cleanupImageListeners: function(image) {

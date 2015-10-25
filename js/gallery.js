@@ -1,5 +1,6 @@
 /*global
-    GalleryPicture: true*/
+    GalleryPicture: true
+    GalleryVideo: true*/
 
 'use strict';
 
@@ -52,11 +53,22 @@
   Gallery.prototype.showCurrentPhoto = function() {
     this._pictureElement.innerHTML = '';
 
-    var imageElement = new GalleryPicture({
-      model: this._photos.at(this._currentPhoto)
-    });
-    imageElement.render();
-    this._pictureElement.appendChild(imageElement.el);
+    var photoModel = this._photos.at(this._currentPhoto);
+    console.log(photoModel);
+    var element;
+
+    if (photoModel.get('preview')) {
+      element = new GalleryVideo({
+        model: photoModel
+      });
+    } else {
+      element = new GalleryPicture({
+        model: photoModel
+      });
+    }
+
+    element.render();
+    this._pictureElement.appendChild(element.el);
   };
 
   Gallery.prototype._onCloseClick = function(event) {
@@ -98,9 +110,10 @@
   };
 
   Gallery.prototype.setPhotos = function(photos) {
-    this._photos.reset(photos.map(function(photoSrc) {
+    this._photos.reset(photos.map(function(photo) {
       return new Backbone.Model({
-        url: photoSrc
+        url: photo.src,
+        preview: photo.preview
       });
     }));
   };
@@ -114,6 +127,7 @@
 
   Gallery.prototype.findClickedPhoto = function(currentPhoto) {
     this._photos.forEach(function(val, i) {
+      console.log(val.get('url'));
       if (val.get('url') === currentPhoto.src) {
         this.setCurrentPhoto(i);
       }
@@ -124,11 +138,25 @@
 
   var photoGalleryOverlay = new Gallery();
   var photoGallery = document.querySelector('.photogallery');
-  var photosArray = document.querySelectorAll('.photogallery img');
+  var photosArray = document.querySelectorAll('.photogallery-image');
   var photos = [];
+
   for (var i = 0; i < photosArray.length; ++i) {
-    photos.push(photosArray[i].src);
+    var data = photosArray[i].dataset;
+    var img = photosArray[i].querySelector('img');
+
+    if (data['replacementVideo']) {
+      photos.push({
+        src: data['replacementVideo'],
+        preview: img.src
+      });
+    } else {
+      photos.push({
+        src: img.src
+      });
+    }
   }
+
   photoGalleryOverlay.setPhotos(photos);
 
   photoGallery.addEventListener('click', function(event) {
