@@ -54,7 +54,6 @@
     this._pictureElement.innerHTML = '';
 
     var photoModel = this._photos.at(this._currentPhoto);
-    console.log(photoModel);
     var element;
 
     if (photoModel.get('preview')) {
@@ -125,13 +124,9 @@
     this.showCurrentPhoto();
   };
 
-  Gallery.prototype.findClickedPhoto = function(currentPhoto) {
-    this._photos.forEach(function(val, i) {
-      console.log(val.get('url'));
-      if (val.get('url') === currentPhoto.src) {
-        this.setCurrentPhoto(i);
-      }
-    }, this);
+  Gallery.prototype.findClickedPhoto = function(currentPhoto, photosContainer) {
+    var currPhoto = [].indexOf.call(photosContainer, currentPhoto.parentNode);
+    this.setCurrentPhoto(currPhoto);
   };
 
   window.Gallery = Gallery;
@@ -162,7 +157,7 @@
   photoGallery.addEventListener('click', function(event) {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
-      photoGalleryOverlay.findClickedPhoto(event.target);
+      photoGalleryOverlay.findClickedPhoto(event.target, photosArray);
       photoGalleryOverlay.showGallery();
     }
   });

@@ -89,20 +89,10 @@
 
       yesButton.classList.remove('review-quiz-answer-active');
       noButton.classList.remove('review-quiz-answer-active');
-
-      yesButton.classList.toggle('review-quiz-answer-active', useful);
-      noButton.classList.toggle('review-quiz-answer-active', !useful);
-
-//      switch (this.model.get('useful')) {
-//        case 1:
-//          yesButton.classList.add('review-quiz-answer-active');
-//          break;
-//        case 0:
-//          noButton.classList.add('review-quiz-answer-active');
-//          break;
-//        case -1:
-//          break;
-//      }
+      if (useful !== null) {
+        yesButton.classList.toggle('review-quiz-answer-active', useful);
+        noButton.classList.toggle('review-quiz-answer-active', !useful);
+      }
 
     },
     _cleanupImageListeners: function(image) {
