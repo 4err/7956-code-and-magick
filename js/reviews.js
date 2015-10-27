@@ -13,10 +13,11 @@ define([
     var reviewsContainer = document.querySelector('.reviews-list');
 
     var reviewsCollection = new ReviewsCollection();
+    var originCollectionData;
     var currentPage = 0;
-    //    var initiallyLoaded = [];
     var renderedReviews = [];
     var reviewsOnPage = 3;
+    var currentFilter = '';
     var nextButton = document.querySelector('.reviews-controls-more');
 
     function showMoreButton() {
@@ -65,50 +66,39 @@ define([
     }
 
     function filterReviews(filterName) {
-      var filteredReviews = reviewsCollection;
+
+      if (reviewsCollection.length !== originCollectionData.length) {
+        reviewsCollection.reset(originCollectionData);
+        var filtered;
+      }
 
       switch (filterName) {
         case 'reviews-recent':
-          //        filteredReviews.sort(function(a, b) {
-          //          return new Date(b.date) - new Date(a.date);
-          //        });
-          filteredReviews.order_by_date();
+          reviewsCollection.order_by_date();
           break;
 
         case 'reviews-good':
-          //        filteredReviews = filteredReviews
-          //          .filter(function(item) {
-          //            return item.rating > 2;
-          //          }).sort(function(a, b) {
-          //            return b.rating - a.rating;
-          //          });
-          filteredReviews.order_by_good();
+          filtered = originCollectionData.filter(function(model) {
+            return model.get('rating') > 2;
+          });
+          reviewsCollection.reset(filtered);
+          reviewsCollection.order_by_good();
           break;
 
         case 'reviews-bad':
-          //        filteredReviews = filteredReviews
-          //          .filter(function(item) {
-          //            return item.rating < 3;
-          //          })
-          //          .sort(function(a, b) {
-          //            return a.rating - b.rating;
-          //          });
-          //        var test = filteredReviews.filter(function(model) {
-          //          return model.get('rating') < 2;
-          //        });
-          //        filteredReviews.reset(test);
-          //console.log(reviewsCollection)
-          filteredReviews.order_by_bad();
+          filtered = originCollectionData.filter(function(model) {
+            return model.get('rating') < 3;
+          });
+          reviewsCollection.reset(filtered);
+          reviewsCollection.order_by_bad();
           break;
 
         case 'reviews-popular':
-          filteredReviews.order_by_popular();
+          reviewsCollection.order_by_popular();
           break;
         default:
-          filteredReviews.order_by_default();
+          reviewsCollection.order_by_default();
       }
-
-      //    reviewsCollection.reset(filteredReviews);
     }
 
     function setActiveFilter(filterName) {
@@ -123,9 +113,7 @@ define([
 
       filterElements.addEventListener('click', function(event) {
         if (event.target.tagName === 'INPUT') {
-          var filterName = event.target.id;
-          setActiveFilter(filterName);
-          location.hash = 'filters/' + filterName;
+          location.hash = 'filters/' + event.target.id;
         }
       });
     }
@@ -133,10 +121,17 @@ define([
     function parseURL() {
       var hash = location.hash;
       var hashRegExp = hash.match(/#filters\/(\S+)/);
+      var filterName;
+
       if (hashRegExp) {
-        setActiveFilter(hashRegExp[1]);
+        filterName = hashRegExp[1];
       } else {
-        setActiveFilter('reviews-all');
+        filterName = 'reviews-all';
+      }
+
+      if (currentFilter !== filterName) {
+        currentFilter = filterName;
+        setActiveFilter(filterName);
       }
     }
 
@@ -149,12 +144,9 @@ define([
 
     reviewsCollection.fetch({
       timeout: REQUEST_FAILURE_TIMEOUT
-    }).success(function( /*loaded, state, jqXHR*/ ) {
-      //      initiallyLoaded = jqXHR.responseJSON;
-      reviewsCollection.map(function(model, index) {
-        model.set('default', index);
-      });
+    }).success(function() {
       initFilters();
+      originCollectionData = reviewsCollection.filter();
       reviewsContainer.classList.remove('reviews-load-failure');
       nextButton.addEventListener('click', showNextReviews);
       reviewsContainer.classList.remove('reviews-list-loading');
