@@ -1,9 +1,8 @@
-/*global
-    ReviewModel: true*/
-
 'use strict';
 
-(function() {
+define([
+  'models/review'
+], function(ReviewModel) {
   var ReviewsCollection = Backbone.Collection.extend({
     model: ReviewModel,
     url: 'data/reviews.json',
@@ -49,5 +48,5 @@
 
   });
 
-  window.ReviewsCollection = ReviewsCollection;
-})();
+  return ReviewsCollection;
+});

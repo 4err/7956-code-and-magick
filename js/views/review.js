@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
 
   var ratingClassname = {
     1: 'review-rating-one',
@@ -102,6 +102,6 @@
     }
   });
 
-  window.ReviewView = ReviewView;
+  return ReviewView;
 
-})();
+});
