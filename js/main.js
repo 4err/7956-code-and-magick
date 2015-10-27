@@ -6,8 +6,10 @@ requirejs.config({
 
 define([
   'gallery',
+  'reviews',
   'form_validation',
-  'form'
+  'form',
+  'game_demo'
 ], function(Gallery) {
   var photoGalleryOverlay = new Gallery();
   var photoGallery = document.querySelector('.photogallery');
@@ -35,7 +37,7 @@ define([
   photoGallery.addEventListener('click', function(event) {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
-      photoGalleryOverlay.findClickedPhoto(event.target);
+      photoGalleryOverlay.findClickedPhoto(event.target, photosArray);
       photoGalleryOverlay.showGallery();
     }
   });

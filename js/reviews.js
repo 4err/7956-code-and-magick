@@ -1,9 +1,10 @@
-/*global
-    ReviewsCollection: true
-    ReviewView: true*/
 'use strict';
 
-(function() {
+define([
+  'models/reviews',
+  'views/review'
+],
+  function(ReviewsCollection, ReviewView) {
 
   var REQUEST_FAILURE_TIMEOUT = 10000;
 
@@ -93,11 +94,11 @@
         //          .sort(function(a, b) {
         //            return a.rating - b.rating;
         //          });
-        var test = filteredReviews.filter(function(model) {
-          return model.get('rating') < 2;
-        });
-        filteredReviews.reset(test);
-console.log(reviewsCollection)
+//        var test = filteredReviews.filter(function(model) {
+//          return model.get('rating') < 2;
+//        });
+//        filteredReviews.reset(test);
+//console.log(reviewsCollection)
         filteredReviews.order_by_bad();
         break;
 
@@ -147,4 +148,4 @@ console.log(reviewsCollection)
     reviewsContainer.classList.add('reviews-load-failure');
   });
 
-})();
+});

@@ -1,7 +1,3 @@
-/*global
-    GalleryPicture: true
-    GalleryVideo: true*/
-
 'use strict';
 
 define([
