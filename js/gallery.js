@@ -1,3 +1,7 @@
+/*global
+    GalleryPicture: true
+    GalleryVideo: true*/
+
 'use strict';
 
 (function() {
@@ -20,7 +24,7 @@
     this._pictureElement = this._galleryOverlay.querySelector('.overlay-gallery-preview');
 
     this._currentPhoto = 0;
-    this._photos = [];
+    this._photos = new Backbone.Collection();
 
     this._onCloseClick = this._onCloseClick.bind(this);
     this._onLeftButtonClick = this._onLeftButtonClick.bind(this);
@@ -49,11 +53,21 @@
   Gallery.prototype.showCurrentPhoto = function() {
     this._pictureElement.innerHTML = '';
 
-    var image = new Image();
-    image.src = this._photos[this._currentPhoto];
-    image.onload = function() {
-      this._pictureElement.appendChild(image);
-    }.bind(this);
+    var photoModel = this._photos.at(this._currentPhoto);
+    var element;
+
+    if (photoModel.get('preview')) {
+      element = new GalleryVideo({
+        model: photoModel
+      });
+    } else {
+      element = new GalleryPicture({
+        model: photoModel
+      });
+    }
+
+    element.render();
+    this._pictureElement.appendChild(element.el);
   };
 
   Gallery.prototype._onCloseClick = function(event) {
@@ -95,7 +109,12 @@
   };
 
   Gallery.prototype.setPhotos = function(photos) {
-    this._photos = photos;
+    this._photos.reset(photos.map(function(photo) {
+      return new Backbone.Model({
+        url: photo.src,
+        preview: photo.preview
+      });
+    }));
   };
 
   Gallery.prototype.setCurrentPhoto = function(num) {
@@ -105,29 +124,40 @@
     this.showCurrentPhoto();
   };
 
-  Gallery.prototype.findClickedPhoto = function(currentPhoto) {
-    this._photos.forEach(function(val, i) {
-      if (val === currentPhoto.src) {
-        this.setCurrentPhoto(i);
-      }
-    }, this);
+  Gallery.prototype.findClickedPhoto = function(currentPhoto, photosContainer) {
+    var currPhoto = [].indexOf.call(photosContainer, currentPhoto.parentNode);
+    this.setCurrentPhoto(currPhoto);
   };
 
   window.Gallery = Gallery;
 
   var photoGalleryOverlay = new Gallery();
   var photoGallery = document.querySelector('.photogallery');
-  var photosArray = document.querySelectorAll('.photogallery img');
+  var photosArray = document.querySelectorAll('.photogallery-image');
   var photos = [];
+
   for (var i = 0; i < photosArray.length; ++i) {
-    photos.push(photosArray[i].src);
+    var data = photosArray[i].dataset;
+    var img = photosArray[i].querySelector('img');
+
+    if (data['replacementVideo']) {
+      photos.push({
+        src: data['replacementVideo'],
+        preview: img.src
+      });
+    } else {
+      photos.push({
+        src: img.src
+      });
+    }
   }
+
   photoGalleryOverlay.setPhotos(photos);
 
   photoGallery.addEventListener('click', function(event) {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
-      photoGalleryOverlay.findClickedPhoto(event.target);
+      photoGalleryOverlay.findClickedPhoto(event.target, photosArray);
       photoGalleryOverlay.showGallery();
     }
   });
