@@ -127,13 +127,9 @@ define([
     this.showCurrentPhoto();
   };
 
-  Gallery.prototype.findClickedPhoto = function(currentPhoto) {
-    this._photos.forEach(function(val, i) {
-      console.log(val.get('url'));
-      if (val.get('url') === currentPhoto.src) {
-        this.setCurrentPhoto(i);
-      }
-    }, this);
+  Gallery.prototype.findClickedPhoto = function(currentPhoto, photosContainer) {
+    var currPhoto = [].indexOf.call(photosContainer, currentPhoto.parentNode);
+    this.setCurrentPhoto(currPhoto);
   };
 
   return Gallery;
