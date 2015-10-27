@@ -34,7 +34,7 @@ define([
       this.sort();
     },
     _order_by_date: function(a, b) {
-      return new Date(b.get('date')) - new Date(a.get('date'))
+      return new Date(b.get('date')) - new Date(a.get('date'));
     },
     _order_by_good: function(a) {
       return -a.get('rating');
