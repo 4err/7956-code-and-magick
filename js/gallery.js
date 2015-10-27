@@ -22,7 +22,7 @@ define([
     this._rightButton = this._galleryOverlay.querySelector('.overlay-gallery-control-right');
     this._pictureElement = this._galleryOverlay.querySelector('.overlay-gallery-preview');
 
-    this._currentPhoto = 0;
+    this._currentPhoto = -1;
     this._photos = new Backbone.Collection();
 
     this._onCloseClick = this._onCloseClick.bind(this);
@@ -119,8 +119,10 @@ define([
   Gallery.prototype.setCurrentPhoto = function(num) {
     num = clamp(num, 0, this._photos.length - 1);
 
-    this._currentPhoto = num;
-    this.showCurrentPhoto();
+    if (this._currentPhoto !== num) {
+      this._currentPhoto = num;
+      this.showCurrentPhoto();
+    }
   };
 
   Gallery.prototype.findClickedPhoto = function(currentPhoto, photosContainer) {
