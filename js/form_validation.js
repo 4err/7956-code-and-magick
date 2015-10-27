@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
 
   var form = document.forms[1];
 
@@ -67,4 +67,4 @@
 
   updateFieldsFromCookies();
 
-})();
+});

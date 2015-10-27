@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
 
   var GalleryVideo = Backbone.View.extend({
     initialize: function() {
@@ -26,5 +26,5 @@
     }
   });
 
-  window.GalleryVideo = GalleryVideo;
-})();
+  return GalleryVideo;
+});

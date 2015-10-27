@@ -4,7 +4,10 @@
 
 'use strict';
 
-(function() {
+define([
+  'views/photo',
+  'views/video'
+], function(GalleryPicture, GalleryVideo) {
 
   var Key = {
     'ESC': 27,
@@ -54,7 +57,6 @@
     this._pictureElement.innerHTML = '';
 
     var photoModel = this._photos.at(this._currentPhoto);
-    console.log(photoModel);
     var element;
 
     if (photoModel.get('preview')) {
@@ -134,37 +136,5 @@
     }, this);
   };
 
-  window.Gallery = Gallery;
-
-  var photoGalleryOverlay = new Gallery();
-  var photoGallery = document.querySelector('.photogallery');
-  var photosArray = document.querySelectorAll('.photogallery-image');
-  var photos = [];
-
-  for (var i = 0; i < photosArray.length; ++i) {
-    var data = photosArray[i].dataset;
-    var img = photosArray[i].querySelector('img');
-
-    if (data['replacementVideo']) {
-      photos.push({
-        src: data['replacementVideo'],
-        preview: img.src
-      });
-    } else {
-      photos.push({
-        src: img.src
-      });
-    }
-  }
-
-  photoGalleryOverlay.setPhotos(photos);
-
-  photoGallery.addEventListener('click', function(event) {
-    event.preventDefault();
-    if (event.target.tagName === 'IMG') {
-      photoGalleryOverlay.findClickedPhoto(event.target);
-      photoGalleryOverlay.showGallery();
-    }
-  });
-
-})();
+  return Gallery;
+});
