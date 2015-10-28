@@ -1,10 +1,9 @@
-/*global
-    GalleryPicture: true
-    GalleryVideo: true*/
-
 'use strict';
 
-(function() {
+define([
+  'views/photo',
+  'views/video'
+], function(GalleryPicture, GalleryVideo) {
 
   var Key = {
     'ESC': 27,
@@ -23,7 +22,7 @@
     this._rightButton = this._galleryOverlay.querySelector('.overlay-gallery-control-right');
     this._pictureElement = this._galleryOverlay.querySelector('.overlay-gallery-preview');
 
-    this._currentPhoto = 0;
+    this._currentPhoto = -1;
     this._photos = new Backbone.Collection();
 
     this._onCloseClick = this._onCloseClick.bind(this);
@@ -120,8 +119,10 @@
   Gallery.prototype.setCurrentPhoto = function(num) {
     num = clamp(num, 0, this._photos.length - 1);
 
-    this._currentPhoto = num;
-    this.showCurrentPhoto();
+    if (this._currentPhoto !== num) {
+      this._currentPhoto = num;
+      this.showCurrentPhoto();
+    }
   };
 
   Gallery.prototype.findClickedPhoto = function(currentPhoto, photosContainer) {
@@ -129,37 +130,5 @@
     this.setCurrentPhoto(currPhoto);
   };
 
-  window.Gallery = Gallery;
-
-  var photoGalleryOverlay = new Gallery();
-  var photoGallery = document.querySelector('.photogallery');
-  var photosArray = document.querySelectorAll('.photogallery-image');
-  var photos = [];
-
-  for (var i = 0; i < photosArray.length; ++i) {
-    var data = photosArray[i].dataset;
-    var img = photosArray[i].querySelector('img');
-
-    if (data['replacementVideo']) {
-      photos.push({
-        src: data['replacementVideo'],
-        preview: img.src
-      });
-    } else {
-      photos.push({
-        src: img.src
-      });
-    }
-  }
-
-  photoGalleryOverlay.setPhotos(photos);
-
-  photoGallery.addEventListener('click', function(event) {
-    event.preventDefault();
-    if (event.target.tagName === 'IMG') {
-      photoGalleryOverlay.findClickedPhoto(event.target, photosArray);
-      photoGalleryOverlay.showGallery();
-    }
-  });
-
-})();
+  return Gallery;
+});

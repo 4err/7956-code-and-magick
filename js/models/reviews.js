@@ -1,9 +1,8 @@
-/*global
-    ReviewModel: true*/
-
 'use strict';
 
-(function() {
+define([
+  'models/review'
+], function(ReviewModel) {
   var ReviewsCollection = Backbone.Collection.extend({
     model: ReviewModel,
     url: 'data/reviews.json',
@@ -35,7 +34,7 @@
       this.sort();
     },
     _order_by_date: function(a, b) {
-      return new Date(b.get('date')) - new Date(a.get('date'))
+      return new Date(b.get('date')) - new Date(a.get('date'));
     },
     _order_by_good: function(a) {
       return -a.get('rating');
@@ -49,5 +48,5 @@
 
   });
 
-  window.ReviewsCollection = ReviewsCollection;
-})();
+  return ReviewsCollection;
+});
