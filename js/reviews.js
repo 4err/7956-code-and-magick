@@ -5,13 +5,9 @@ define([
   'views/review'
 ],
   function(ReviewsCollection, ReviewView) {
-
     var REQUEST_FAILURE_TIMEOUT = 10000;
-
     var reviewsFilter = document.querySelector('.reviews-filter');
-
     var reviewsContainer = document.querySelector('.reviews-list');
-
     var reviewsCollection = new ReviewsCollection();
     var originCollectionData;
     var currentPage = 0;
@@ -121,12 +117,10 @@ define([
     function parseURL() {
       var hash = location.hash;
       var hashRegExp = hash.match(/#filters\/(\S+)/);
-      var filterName;
+      var filterName = 'reviews-all';
 
       if (hashRegExp) {
         filterName = hashRegExp[1];
-      } else {
-        filterName = 'reviews-all';
       }
 
       if (currentFilter !== filterName) {
