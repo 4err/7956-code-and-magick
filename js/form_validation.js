@@ -1,7 +1,6 @@
 'use strict';
 
 define(function() {
-
   var form = document.forms[1];
 
   var reviewName = form['review-name'];
@@ -12,6 +11,10 @@ define(function() {
   var labelName = labelForm.getElementsByClassName('review-fields-name')[0];
   var labelText = labelForm.getElementsByClassName('review-fields-text')[0];
 
+  /**
+   * Проверка заполнения обязательных полей формы
+   * @returns {Boolean}
+   */
   function checkValidation() {
     if (reviewName.value !== '') {
       labelName.style.display = 'none';
@@ -34,6 +37,9 @@ define(function() {
     return false;
   }
 
+  /**
+   * Запись данных в форму из Cookies
+   */
   function updateFieldsFromCookies() {
     reviewName.value = docCookies.getItem('name');
     reviewMark.value = docCookies.getItem('mark');
@@ -41,14 +47,24 @@ define(function() {
     checkValidation();
   }
 
+  /**
+   * Валидация при изменении имени.
+   */
   reviewName.onchange = function() {
     checkValidation();
   };
 
+  /**
+   * Валидация при изменении текста
+   */
   reviewText.onchange = function() {
     checkValidation();
   };
 
+  /**
+   * Проверка валидации и сохранение данных при отправке формы.
+   * @param {Event} event
+   */
   form.onsubmit = function(event) {
     event.preventDefault();
 

@@ -8,6 +8,9 @@ define([
     var cloudsVisibility = true;
     clouds.style.backgroundPositionX = '50%';
 
+    /**
+     * Проверка видимости облаков на экране
+     */
     function checkVisibleClouds() {
       var cloudsVisiblePart = clouds.getBoundingClientRect().bottom;
       if (cloudsVisiblePart < 0) {
@@ -17,6 +20,12 @@ define([
       }
     }
 
+    /**
+     * Функция троттлинга
+     * @param   {Function} fn
+     * @param   {Number}   timeout
+     * @returns {Function}
+     */
     function throttle(fn, timeout) {
       var last = 0;
       var timer = 0;
@@ -39,8 +48,14 @@ define([
       };
     }
 
+    /**
+     *  Затроттленая функция
+     */
     var checkVisibleCloudsThrottled = throttle(checkVisibleClouds, 100);
 
+    /**
+     * Обработчик скролла
+     */
     window.addEventListener('scroll', function() {
       if (cloudsVisibility) {
         window.requestAnimationFrame(function() {
@@ -54,14 +69,23 @@ define([
       checkVisibleCloudsThrottled();
     });
 
+    /**
+     * Обработчик скрытия облаков
+     */
     window.addEventListener('cloudsHidden', function() {
       cloudsVisibility = false;
     });
 
+    /**
+     * Обработчик показа облаков
+     */
     window.addEventListener('cloudsShow', function() {
       cloudsVisibility = true;
     });
 
+    /**
+     * Инициализация игры.
+     */
     var game = new Game.Game(document.querySelector('.demo'));
     game.initializeLevelAndStart();
     game.setGameStatus(Game.Verdict.INTRO);

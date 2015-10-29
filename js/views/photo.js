@@ -1,7 +1,10 @@
 'use strict';
 
 define(function() {
-
+  /**
+  * @constructor
+  * @extends {Backbone.View}
+  */
   var GalleryPicture = Backbone.View.extend({
     tagName: 'img',
 

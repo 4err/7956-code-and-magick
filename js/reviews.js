@@ -16,6 +16,9 @@ define([
     var currentFilter = '';
     var nextButton = document.querySelector('.reviews-controls-more');
 
+    /**
+     * Показ или скрытие кнопки "Показать еще отзывы"
+     */
     function showMoreButton() {
       var show = currentPage < Math.ceil(reviewsCollection.length / reviewsOnPage) - 1;
 
@@ -26,11 +29,20 @@ define([
       }
     }
 
+    /**
+     * Показ следующей страницы отзывов
+     * @param {Event} event
+     */
     function showNextReviews(event) {
       event.preventDefault();
       renderReviews(++currentPage);
     }
 
+    /**
+     * Отрисовака отзывов
+     * @param {Number}  [page=0]   Номер страницы
+     * @param {Boolean} updateList Загрузить новый список или дополнить старый.
+     */
     function renderReviews(page, updateList) {
       page = page || 0;
 
@@ -61,6 +73,10 @@ define([
       showMoreButton();
     }
 
+    /**
+     * Обработчик переключения фильтрации отзывов
+     * @param   {String}   filterName
+     */
     function filterReviews(filterName) {
 
       if (reviewsCollection.length !== originCollectionData.length) {
@@ -70,7 +86,7 @@ define([
 
       switch (filterName) {
         case 'reviews-recent':
-          reviewsCollection.order_by_date();
+          reviewsCollection.orderByDate();
           break;
 
         case 'reviews-good':
@@ -78,7 +94,7 @@ define([
             return model.get('rating') > 2;
           });
           reviewsCollection.reset(filtered);
-          reviewsCollection.order_by_good();
+          reviewsCollection.orderByGood();
           break;
 
         case 'reviews-bad':
@@ -86,17 +102,21 @@ define([
             return model.get('rating') < 3;
           });
           reviewsCollection.reset(filtered);
-          reviewsCollection.order_by_bad();
+          reviewsCollection.orderByBad();
           break;
 
         case 'reviews-popular':
-          reviewsCollection.order_by_popular();
+          reviewsCollection.orderByPopular();
           break;
         default:
-          reviewsCollection.order_by_default();
+          reviewsCollection.orderByDefault();
       }
     }
 
+    /**
+     * Выбор текущего фильтра
+     * @param {String} filterName
+     */
     function setActiveFilter(filterName) {
       filterReviews(filterName);
       currentPage = 0;
@@ -104,6 +124,9 @@ define([
       document.getElementById(filterName).checked = true;
     }
 
+    /**
+     * Инициализация фильтра
+     */
     function initFilters() {
       var filterElements = document.querySelector('.reviews-filter');
 
@@ -114,6 +137,9 @@ define([
       });
     }
 
+    /**
+     * Разбор адреса для применения нужного фильтра.
+     */
     function parseURL() {
       var hash = location.hash;
       var hashRegExp = hash.match(/#filters\/(\S+)/);
@@ -129,6 +155,9 @@ define([
       }
     }
 
+  /**
+   * Обработчик изменения хэша в адресе страницы.
+  */
     window.addEventListener('hashchange', function() {
       parseURL();
     });

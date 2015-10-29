@@ -1,17 +1,36 @@
 'use strict';
 
 define(function() {
+  /**
+   * @type {Element}
+   */
   var formContainer = document.querySelector('.overlay-container');
+
+  /**
+   * @type {Element}
+   */
   var formOpenButton = document.querySelector('.reviews-controls-new');
+
+  /**
+   * @type {Element}
+   */
   var formCloseButton = document.querySelector('.review-form-close');
 
-  formOpenButton.onclick = function(evt) {
-    evt.preventDefault();
+  /**
+   * Показ формы отзыва
+   * @param {Event} event
+   */
+  formOpenButton.onclick = function(event) {
+    event.preventDefault();
     formContainer.classList.remove('invisible');
   };
 
-  formCloseButton.onclick = function(evt) {
-    evt.preventDefault();
+  /**
+   * Скрытие формы отзыва
+   * @param {Event} event
+   */
+  formCloseButton.onclick = function(event) {
+    event.preventDefault();
     formContainer.classList.add('invisible');
   };
 });

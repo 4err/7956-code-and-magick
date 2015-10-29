@@ -3,46 +3,95 @@
 define([
   'models/review'
 ], function(ReviewModel) {
+  /**
+   * @constructor
+   * @extends {Backbone.Collection}
+   */
   var ReviewsCollection = Backbone.Collection.extend({
     model: ReviewModel,
     url: 'data/reviews.json',
+    /**
+     * @override
+     */
     initialize: function() {
-      this._order_by_id = this.comparator;
+      this._orderById = this.comparator;
     },
     comparator: function(ab) {
       return -ab.id;
     },
-    order_by_date: function() {
-      this.comparator = this._order_by_date;
-      this.sort();
-
-    },
-    order_by_good: function() {
-      this.comparator = this._order_by_good;
+    /**
+     * Сортировка по дате
+     */
+    orderByDate: function() {
+      this.comparator = this._orderByDate;
       this.sort();
     },
-    order_by_bad: function() {
-      this.comparator = this._order_by_bad;
+    /**
+     * Сортировка по оценкам. Сначала высокие
+     */
+    orderByGood: function() {
+      this.comparator = this._orderByGood;
       this.sort();
     },
-    order_by_popular: function() {
-      this.comparator = this._order_by_popular;
+    /**
+     * Сортировка по оценкам. Сначала низкие
+     */
+    orderByBad: function() {
+      this.comparator = this._orderByBad;
       this.sort();
     },
-    order_by_default: function() {
-      this.comparator = this._order_by_id;
+    /**
+     * Сортировка по популярности
+     */
+    orderByPopular: function() {
+      this.comparator = this._orderByPopular;
       this.sort();
     },
-    _order_by_date: function(a, b) {
+    /**
+     * Сортировка по умолчанию
+     */
+    orderByDefault: function() {
+      this.comparator = this._orderBy_id;
+      this.sort();
+    },
+    /**
+     * Функция сортировки по дате.
+     * @private
+     * @param   {Object} a
+     * @param   {Object} b
+     * @returns {Number}
+     */
+    _orderByDate: function(a, b) {
       return new Date(b.get('date')) - new Date(a.get('date'));
     },
-    _order_by_good: function(a) {
+    /**
+     * Функция сортировки по оценкам.
+     * @private
+     * @param   {Object} a
+     * @param   {Object} b
+     * @returns {Number}
+     */
+    _orderByGood: function(a) {
       return -a.get('rating');
     },
-    _order_by_bad: function(a) {
+    /**
+     * Функция сортировки по оценкам.
+     * @private
+     * @param   {Object} a
+     * @param   {Object} b
+     * @returns {Number}
+     */
+    _orderByBad: function(a) {
       return a.get('rating');
     },
-    _order_by_popular: function(a) {
+    /**
+     * Функция сортировки по популярности.
+     * @private
+     * @param   {Object} a
+     * @param   {Object} b
+     * @returns {Number}
+     */
+    _orderByPopular: function(a) {
       return -a.get('review-rating');
     }
 
