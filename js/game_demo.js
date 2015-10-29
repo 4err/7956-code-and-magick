@@ -23,7 +23,7 @@ define([
     /**
      * Функция троттлинга
      * @param   {Function} fn
-     * @param   {Number}   timeout
+     * @param   {number} timeout
      * @returns {Function}
      */
     function throttle(fn, timeout) {

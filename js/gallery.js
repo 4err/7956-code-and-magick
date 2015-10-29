@@ -16,10 +16,10 @@ define([
 
   /**
    * Проверка попадания числа в пределы
-   * @param   {Number} value
-   * @param   {Number} min
-   * @param   {Number} max
-   * @returns {Number}
+   * @param   {number} value
+   * @param   {number} min
+   * @param   {number} max
+   * @returns {number}
    */
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -161,7 +161,6 @@ define([
   /**
    * Внесения списка фотографий в коллекцию
    * @param   {Object.<string,string> photos
-   * @returns {Backbone.Model}
    */
   Gallery.prototype.setPhotos = function(photos) {
     this._photos.reset(photos.map(function(photo) {
@@ -174,7 +173,7 @@ define([
 
   /**
    * Установка текущего фото
-   * @param {Number} num
+   * @param {number} num
    */
   Gallery.prototype.setCurrentPhoto = function(num) {
     num = clamp(num, 0, this._photos.length - 1);
@@ -187,7 +186,7 @@ define([
 
   /**
    * Поиск номера фотографии нажатой пользователем
-   * @param {Object}   currentPhoto
+   * @param {Object} currentPhoto
    * @param {Element} photosContainer
    */
   Gallery.prototype.findClickedPhoto = function(currentPhoto, photosContainer) {

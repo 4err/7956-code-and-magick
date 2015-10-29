@@ -40,8 +40,8 @@ define([
 
     /**
      * Отрисовака отзывов
-     * @param {Number}  [page=0]   Номер страницы
-     * @param {Boolean} updateList Загрузить новый список или дополнить старый.
+     * @param {number}  [page=0]   Номер страницы
+     * @param {boolean} updateList Загрузить новый список или дополнить старый.
      */
     function renderReviews(page, updateList) {
       page = page || 0;
@@ -75,7 +75,7 @@ define([
 
     /**
      * Обработчик переключения фильтрации отзывов
-     * @param   {String}   filterName
+     * @param   {string}   filterName
      */
     function filterReviews(filterName) {
 
@@ -115,7 +115,7 @@ define([
 
     /**
      * Выбор текущего фильтра
-     * @param {String} filterName
+     * @param {string} filterName
      */
     function setActiveFilter(filterName) {
       filterReviews(filterName);

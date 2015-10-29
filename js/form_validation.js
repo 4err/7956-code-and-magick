@@ -13,7 +13,7 @@ define(function() {
 
   /**
    * Проверка заполнения обязательных полей формы
-   * @returns {Boolean}
+   * @returns {boolean}
    */
   function checkValidation() {
     if (reviewName.value !== '') {

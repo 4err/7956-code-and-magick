@@ -59,7 +59,7 @@ define([
      * @private
      * @param   {Object} a
      * @param   {Object} b
-     * @returns {Number}
+     * @returns {number}
      */
     _orderByDate: function(a, b) {
       return new Date(b.get('date')) - new Date(a.get('date'));
@@ -69,7 +69,7 @@ define([
      * @private
      * @param   {Object} a
      * @param   {Object} b
-     * @returns {Number}
+     * @returns {number}
      */
     _orderByGood: function(a) {
       return -a.get('rating');
@@ -79,7 +79,7 @@ define([
      * @private
      * @param   {Object} a
      * @param   {Object} b
-     * @returns {Number}
+     * @returns {number}
      */
     _orderByBad: function(a) {
       return a.get('rating');
@@ -89,7 +89,7 @@ define([
      * @private
      * @param   {Object} a
      * @param   {Object} b
-     * @returns {Number}
+     * @returns {number}
      */
     _orderByPopular: function(a) {
       return -a.get('review-rating');
