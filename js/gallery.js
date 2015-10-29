@@ -6,7 +6,7 @@ define([
 ], function(GalleryPicture, GalleryVideo) {
 
   /**
-   * @type {Object.<string, number>}
+   * @enum {number}
    */
   var Key = {
     'ESC': 27,
@@ -160,7 +160,7 @@ define([
 
   /**
    * Внесения списка фотографий в коллекцию
-   * @param   {Object.<string,string> photos
+   * @param {Object.<string,string> photos
    */
   Gallery.prototype.setPhotos = function(photos) {
     this._photos.reset(photos.map(function(photo) {

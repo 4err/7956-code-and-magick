@@ -41,7 +41,7 @@ define([
     /**
      * Отрисовака отзывов
      * @param {number}  [page=0]   Номер страницы
-     * @param {boolean} updateList Загрузить новый список или дополнить старый.
+     * @param {boolean=} updateList Загрузить новый список или дополнить старый.
      */
     function renderReviews(page, updateList) {
       page = page || 0;
@@ -75,7 +75,7 @@ define([
 
     /**
      * Обработчик переключения фильтрации отзывов
-     * @param   {string}   filterName
+     * @param {string} filterName
      */
     function filterReviews(filterName) {
 
@@ -125,7 +125,7 @@ define([
     }
 
     /**
-     * Инициализация фильтра
+     * Привязка события смены фильтра к кнопкам фильтрации.
      */
     function initFilters() {
       var filterElements = document.querySelector('.reviews-filter');
@@ -158,9 +158,7 @@ define([
   /**
    * Обработчик изменения хэша в адресе страницы.
   */
-    window.addEventListener('hashchange', function() {
-      parseURL();
-    });
+    window.addEventListener('hashchange', parseURL);
 
     reviewsFilter.classList.add('invisible');
     reviewsContainer.classList.add('reviews-list-loading');

@@ -110,7 +110,7 @@ define(function() {
     /**
      * Обработчик загруженного изображения
      * @private
-     * @param {Object} event
+     * @param {Event} event
      */
     _onImageLoad: function(event) {
       clearTimeout(this._imageLoadTimeout);

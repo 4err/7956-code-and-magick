@@ -6,6 +6,7 @@ define([
   /**
    * @constructor
    * @extends {Backbone.Collection}
+   * @type {Object} options
    */
   var ReviewsCollection = Backbone.Collection.extend({
     model: ReviewModel,
@@ -16,6 +17,11 @@ define([
     initialize: function() {
       this._orderById = this.comparator;
     },
+    /**
+     * Компаратор. Функция сравнения по умолчанию
+     * @param   {Object}   ab
+     * @returns {number}
+     */
     comparator: function(ab) {
       return -ab.id;
     },
@@ -57,8 +63,8 @@ define([
     /**
      * Функция сортировки по дате.
      * @private
-     * @param   {Object} a
-     * @param   {Object} b
+     * @param   {Date} a
+     * @param   {Date} b
      * @returns {number}
      */
     _orderByDate: function(a, b) {
@@ -68,7 +74,6 @@ define([
      * Функция сортировки по оценкам.
      * @private
      * @param   {Object} a
-     * @param   {Object} b
      * @returns {number}
      */
     _orderByGood: function(a) {
@@ -78,7 +83,6 @@ define([
      * Функция сортировки по оценкам.
      * @private
      * @param   {Object} a
-     * @param   {Object} b
      * @returns {number}
      */
     _orderByBad: function(a) {
@@ -88,7 +92,6 @@ define([
      * Функция сортировки по популярности.
      * @private
      * @param   {Object} a
-     * @param   {Object} b
      * @returns {number}
      */
     _orderByPopular: function(a) {

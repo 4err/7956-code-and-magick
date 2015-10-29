@@ -4,6 +4,7 @@ define(function() {
   /**
    * @constructor
    * @extends {Backbone.Model}
+   * @param {Object} options
    */
   var ReviewModel = Backbone.Model.extend({
     /**

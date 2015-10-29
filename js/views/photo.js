@@ -2,9 +2,10 @@
 
 define(function() {
   /**
-  * @constructor
-  * @extends {Backbone.View}
-  */
+   * @constructor
+   * @extends {Backbone.View}
+   * @param {Object} options
+   */
   var GalleryPicture = Backbone.View.extend({
     tagName: 'img',
 
