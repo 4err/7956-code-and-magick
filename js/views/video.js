@@ -4,6 +4,7 @@ define(function() {
   /**
    * @constructor
    * @extends {Backbone.View}
+   * @param {Object} options
    */
   var GalleryVideo = Backbone.View.extend({
     initialize: function() {
